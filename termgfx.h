@@ -6,7 +6,7 @@
 		--> clearing the screen
 
 	Author: Chirculete Vlad Mihai
-	Date (last edit): 12.10.2016
+	Date: 12.10.2016
 */
 
 #include <stdio.h>
