@@ -1,0 +1,55 @@
+Terminal graphics header file 
+
+Author: Chirculete Vlad Mihai
+Date: 12.10.2016
+
+	Functions provided by termgfx.h:
+
+		--> clearscr()
+			Clears the screen.
+
+		--> gotoxy(int x, int y)
+			Moves the cursor inside the terminal at position given by x and y.
+
+		--> getTermHeight()
+			Returns an integer which represents the height of the terminal measured in columns.
+
+		--> getTermWidth()
+			Returns an integer which represents the width of the terminal measured in lines.
+
+		--> drawBar(int x, int y, int WIDTH, int HEIGHT, char *FILL_COLOR)
+			Draws a filled bar at x and y that is WIDTH wide and HEIGHT tall. The filling color is determined by FILL_COLOR.
+			For the variable FILL_COLOR you should use one of the background colors defined. (see the list of availible colors below)
+
+		--> textXY(char *TEXT, int x, int y)
+			Prints TEXT at the given x and y position inside the terminal.
+
+		--> textXYcolor(char *TEXT, int x, int y, char *TEXT_COLOR , char *TEXT_BACKGROUND)
+			Prints TEXT at the given x and y position inside the terminal.
+			The color of the text is given by TEXT_COLOR, and it's background color by TEXT_BACKGROUND.
+			You should use the colors defined in the list below.
+
+
+
+	Colors provided by termgfx.h:
+
+		Foreground colors (text colors)
+
+		NRM  - normal (default terminal color)
+		RED
+		GRN  - green
+		YEL  - yellow
+		BLU  - blue
+		MAG  - magenta
+		CYN  - cyan
+		WHT  - white
+
+		Background colors (for text background and boxes)
+
+		BGRED   - background red
+		BGGRN	- background green
+		BGYEL	- background yellow
+		BGBLU	- background blue
+		BGMAG	- background magenta
+		BGCYN	- background cyan
+		BGWHT	- background white
