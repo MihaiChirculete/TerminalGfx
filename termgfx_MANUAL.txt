@@ -21,6 +21,9 @@ Date: 12.10.2016
 			Draws a filled bar at x and y that is WIDTH wide and HEIGHT tall. The filling color is determined by FILL_COLOR.
 			For the variable FILL_COLOR you should use one of the background colors defined. (see the list of availible colors below)
 
+		--> drawBox(int x, int y, int WIDTH, int HEIGHT, char *COLOR)
+			Draws a box that unlike the bar it isn't filled.
+
 		--> textXY(char *TEXT, int x, int y)
 			Prints TEXT at the given x and y position inside the terminal.
 

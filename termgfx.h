@@ -6,7 +6,7 @@
 		--> clearing the screen
 
 	Author: Chirculete Vlad Mihai
-	Date: 12.10.2016
+	Date (last edit): 12.10.2016
 */
 
 #include <stdio.h>
@@ -77,11 +77,9 @@ int getTermWidth()
 	return cols;
 }
 
-// draws a filled bar and then moves the cursor to the bottom of the terminal
+// draws a filled bar and then moves the cursor to the top of the terminal
 void drawBar(int x, int y, int width, int height, char *color)
 {
-	int bottom = getTermHeight();;
-
 	width--;
 	height--;
 
@@ -100,34 +98,69 @@ void drawBar(int x, int y, int width, int height, char *color)
 	}
 
 	printf("%s", NRM);
-	gotoxy(0, bottom);
+	gotoxy(0, 0);
 }
 
-// prints text at X and Y then moves the cursor to the bottom of the terminal
+// draws a box (different from a bar since it has no filling)  then moves the cursor to the top of the terminal
+void drawBox(int x, int y, int width, int height, char *color)
+{
+	width--;
+	height--;
+
+	int i, j=x;
+
+	gotoxy(x, y);
+	for(i=y; i<=y+height; i++)
+	{
+		gotoxy(x, i);
+		j=x;
+		while(j<=x+width)
+		{
+			if(j==x || j==x+width || i==y || i == y+height) printf("%s ", color);	
+			else printf("%s ", NRM);
+			j++;
+		}
+
+		//printf("%s\n", NRM);
+	}
+
+	printf("%s", NRM);
+
+	gotoxy(0, 0);
+}
+
+// prints text at X and Y then moves the cursor to the top of the terminal
 void textXY(char* text, int x, int y)
 {
-	int bottom = getTermHeight();;
-
 	gotoxy(x, y);
 
 	printf("%s", text);
 
-	gotoxy(0, bottom);
+	gotoxy(0, 0);
 }
 
 
-// prints colored text at X and Y then moves the cursor to the bottom of the terminal
+// prints colored text at X and Y then moves the cursor to the top of the terminal
 void textXYcolor(char* text, int x, int y, char* text_color, char* text_bg)
 {
-	int bottom = getTermHeight();
-
 	gotoxy(x, y);
 
 	printf("%s%s%s%s", text_color, text_bg, text, NRM);
 
-	gotoxy(0, bottom);
+	gotoxy(0, 0);
 }
 
+// sets the current text color to TEXT_COLOR
+void setTextColor(char* text_color)
+{
+	printf("%s", text_color);
+}
+
+// sets the current text background to TEXT_BG
+void setTextBackground(char* text_bg)
+{
+	printf("%s", text_bg);
+}
 
 // clear the screen
 void clearscr()
