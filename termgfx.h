@@ -6,15 +6,18 @@
 		--> clearing the screen
 
 	Author: Chirculete Vlad Mihai
-	Date (last edit): 12.10.2016
+	Date (created): 12.10.2016
+	Date (last edit): 19.11.2016
 */
 
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <string.h>
 
 // text colors
 #define NRM  "\x1B[0m"
+#define BLK  "\x1B[30m"
 #define RED  "\x1B[31m"
 #define GRN  "\x1B[32m"
 #define YEL  "\x1B[33m"
@@ -24,6 +27,7 @@
 #define WHT  "\x1B[37m"
 
 // background colors
+#define BGBLK  "\x1B[40m"
 #define BGRED  "\x1B[41m"
 #define BGGRN  "\x1B[42m"
 #define BGYEL  "\x1B[43m"
@@ -31,6 +35,50 @@
 #define BGMAG  "\x1B[45m"
 #define BGCYN  "\x1B[46m"
 #define BGWHT  "\x1B[47m"
+
+// other text attributes
+#define BOLD_ON "\x1b[1m"		 // Bold on(enable foreground intensity)
+#define UNDERLINE_ON "\x1b[4m"	 // Underline on
+#define BLINK_ON "\x1b[5m"		 // Blink on(enable background intensity)
+#define BOLD_OFF "\x1b[21m"		 // Bold off(disable foreground intensity)
+#define UNDERLINE_OFF "\x1b[24m" //	Underline off
+#define BLINK_OFF "\x1b[25m"	 // Blink off(disable background intensity)
+
+
+typedef struct window window;
+
+struct window
+{
+	int id;				// the id of the window
+	char *title;		// the title of the window
+	char *titleColor;	// color of the window's title
+
+	int x, y;			// x and y coordinates of the top left corner of the window
+	int width, height;	// the width and the height of the window
+
+	int drawBorder;		// 1 or 0, enables/disables drawing of the border and title
+	char *borderColor;	// color of the window's border
+
+	int drawBackground;		// 1 or 0, enables/disables drawing of the window background 
+	char *backgroundColor;	// background color of the box
+};
+
+// sets the window's title and enables border drawing
+void setWindowTitle(window *w, char *title, char *title_color)
+{
+	(*w).title = title;
+	(*w).titleColor = title_color;
+	(*w).drawBorder = 1;
+}
+
+// sets the window's border color and enables border drawing
+void setWindowBorderColor(window *w, char *color)
+{
+	(*w).borderColor = color;
+	(*w).drawBorder = 1;
+}
+
+
 
 // moves the cursor to X and Y in terminal
 void gotoxy(int x,int y)
@@ -162,8 +210,47 @@ void setTextBackground(char* text_bg)
 	printf("%s", text_bg);
 }
 
+// sets text attributes
+void setTextAttr(char* text_attr)
+{
+	printf("%s", text_attr);
+}
+
 // clear the screen
 void clearscr()
 {
 	system("clear");
+}
+
+// draw a given window
+void drawWindow(window w)
+{
+	int titlePosition;	// position on X axis where to start drawing the text
+
+	titlePosition = (w.width / 2) - (strlen(w.title) / 2);
+
+	// if border drawing is set to true (1), draw the border and the title
+	if(w.drawBorder)
+	{
+		drawBox(w.x, w.y, w.width, w.height, w.borderColor);
+
+		// set the bold and underline attributes to ON for title then switch it back off
+		setTextAttr(BOLD_ON);	setTextAttr(UNDERLINE_ON);
+		textXYcolor(w.title, w.x + titlePosition, w.y, w.titleColor, w.borderColor);
+		setTextAttr(BOLD_OFF);	setTextAttr(UNDERLINE_OFF);
+	}
+
+	// if background drawing is set to true (1), draw the background
+	if(w.drawBackground)
+	{
+		drawBar(w.x+1, w.y+1, w.width-1, w.height-1, w.backgroundColor);
+	}
+}
+
+// draw a given array of windows
+void drawWindows(window windows[], int n)
+{
+	int i;
+	for(i=0; i<n; i++)
+		drawWindow(windows[i]);
 }

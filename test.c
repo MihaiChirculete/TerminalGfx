@@ -1,18 +1,52 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "termgfx.h"
+#include <termgfx.h>
+
+void drawBar();
 
 int main(int argc, char **argv)
 {
-	clearscr();
+	system("clear");
 
-	textXYcolor("This is a colored text", 20, 5, MAG, BGCYN);
+	window w[10];
 
-	drawBar(40, 10, 15, 3, BGBLU);
+	// window 0
+	w[0].title = "Window 0";
+	w[0].drawBorder = 1;
+	w[0].titleColor = WHT;
+	w[0].borderColor = BGBLU;
+	w[0].drawBackground = 0;
+	w[0].backgroundColor = BGWHT;
+	w[0].x = 0;
+	w[0].y = 2;
+	w[0].width = (getTermWidth()/2)-1;
+	w[0].height = getTermHeight()-3;
 
-	textXYcolor("This is a bar", 41, 11, RED, BGBLU);
+	// window 1
+	w[1].title = "Window 1";
+	w[1].drawBorder = 1;
+	w[1].titleColor = YEL;
+	w[1].borderColor = BGGRN;
+	w[1].drawBackground = 0;
+	w[1].backgroundColor = BGWHT;
+	w[1].x = getTermWidth()/2;
+	w[1].y = 2;
+	w[1].width = getTermWidth()/2;
+	w[1].height = getTermHeight()/2;
 
-	drawBox(40, 20, 10, 6, BGRED);
+	// window 2
+	w[2].title = "Window 2";
+	w[2].drawBorder = 1;
+	w[2].titleColor = GRN;
+	w[2].borderColor = BGYEL;
+	w[2].drawBackground = 0;
+	w[2].backgroundColor = BGWHT;
+	w[2].x = getTermWidth()/2;
+	w[2].y = getTermHeight()/2;
+	w[2].width = getTermWidth()/2;
+	w[2].height = getTermHeight()/2;
+
+	drawWindows(w, 3);
 
 	return 0;
 }
